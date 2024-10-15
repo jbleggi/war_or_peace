@@ -21,10 +21,15 @@ class Deck
     def percent_high_ranking
         (high_ranking_cards.length.to_f / @cards.length * 100).round(2)
     end
+
+    def remove_card
+        cards.delete_at(0)
+    end
+
 end
 
-cards = [card1 = Card.new(:diamond, 'Queen', 12), card2 = Card.new(:spade, '3', 3), card3 = Card.new(:heart, 'Ace', 14)]
+# cards = [card1 = Card.new(:diamond, 'Queen', 12), card2 = Card.new(:spade, '3', 3), card3 = Card.new(:heart, 'Ace', 14)]
 
-deck = Deck.new(cards)
+# deck = Deck.new(cards)
 
 # require 'pry'; binding.pry
