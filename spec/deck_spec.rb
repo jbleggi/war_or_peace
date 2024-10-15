@@ -47,5 +47,16 @@ it 'removes top card' do
     expect(deck.remove_card).to eq(card1)
 end
 
+it 'adds card to end of pile' do
+    cards = [card1 = Card.new(:diamond, 'Queen', 12), card2 = Card.new(:spade, '3', 3), card3 = Card.new(:heart, 'Ace', 14)]
+
+    deck = Deck.new(cards)
+
+    card4 = Card.new(:club, '5', 5)
+
+    deck.add_card(card4)
+
+    expect(deck.cards).to include(card4)
 end
 
+end
