@@ -4,7 +4,7 @@ class Deck
     attr_reader :cards
     
     def initialize(cards)
-        @cards = create_deck
+        @cards = cards
     end
 
     def rank_of_card_at(index)
@@ -28,7 +28,7 @@ class Deck
         @cards << card
     end
 
-    def create_deck
+    def self.create_deck
         suits = [:hearts, :diamonds, :clubs, :spades]
         values = [
           ['2', 2],
@@ -58,17 +58,8 @@ class Deck
         deck  # Return the created deck
     end
     
-    def shuffle
+    def self.shuffle
         @cards.shuffle!
+        new(deck)
     end
 end
-
-deck = Deck.new(@cards)
-deck.create_deck
-
-# deck1 = deck[0...26]  # First 26 cards
-# deck2 = deck[26..51]  # Remaining 26 cards
-
-# [Deck.new(deck1), Deck.new(deck2)]
-
-require 'pry'; binding.pry
