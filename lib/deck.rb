@@ -2,11 +2,9 @@ require_relative '../lib/card'
 
 class Deck
     attr_reader :cards
-
-    def initialize(cards = [])
-        @cards = cards
-        # @rankings = @cards.map { |card| card.rank }
-        # .map takes each element of og array & passes it to block {}, transforms, & creates new array
+    
+    def initialize(cards)
+        @cards = create_deck
     end
 
     def rank_of_card_at(index)
@@ -29,12 +27,48 @@ class Deck
     def add_card(card)
         @cards << card
     end
+
+    def create_deck
+        suits = [:hearts, :diamonds, :clubs, :spades]
+        values = [
+          ['2', 2],
+          ['3', 3],
+          ['4', 4],
+          ['5', 5],
+          ['6', 6],
+          ['7', 7],
+          ['8', 8],
+          ['9', 9],
+          ['10', 10],
+          ['Jack', 11],
+          ['Queen', 12],
+          ['King', 13],
+          ['Ace', 14]
+        ]
+        
+        deck = []
+      
+        # Create the cards in the deck using a loop
+        suits.each do |suit|
+          values.each do |value, rank|
+            deck << Card.new(suit, value, rank)
+          end
+        end
+      
+        deck  # Return the created deck
+    end
+    
+    def shuffle
+        @cards.shuffle!
+    end
 end
 
-cards = [card1 = Card.new(:diamond, 'Queen', 12), card2 = Card.new(:spade, '3', 3), card3 = Card.new(:heart, 'Ace', 14)]
+deck = Deck.new(@cards)
+deck.create_deck
 
-card4 = Card.new(:club, '5', 5)
+# deck1 = deck[0...26]  # First 26 cards
+# deck2 = deck[26..51]  # Remaining 26 cards
 
-deck = Deck.new(cards)
+# [Deck.new(deck1), Deck.new(deck2)]
 
-# require 'pry'; binding.pry
+require 'pry'; binding.pry
