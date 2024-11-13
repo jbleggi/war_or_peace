@@ -46,9 +46,9 @@ RSpec.describe do
     it 'can have a type' do
       expect(@turn.type).to eq(:basic)
     end
-    
+
     it 'can declare a winner' do
-      expect(@turn.winner).to eq("Winner is #{@player1.name}.")
+      expect(@turn.winner).to eq(@player1)
     end
 
     it 'can create an array of cards based on turn result' do
@@ -57,10 +57,12 @@ RSpec.describe do
     end
 
     it 'can add spoils_of_war to winner deck' do
-      @turn.award_spoils(@turn.winner)
+      @turn.pile_cards
 
-      expect(@turn.player2.deck.count).to eq 3
-      expect(@turn.player1.deck.count).to eq 5
+      winner = @turn.winner
+      @turn.award_spoils(winner)
+
+      expect(@turn.winner.deck.cards.count).to eq 6
     end
   end
 end

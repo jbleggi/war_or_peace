@@ -22,17 +22,17 @@ class Turn
       card1 = @player1.deck.cards[0]
       card2 = @player2.deck.cards[0]
       if card1.rank > card2.rank
-        return "Winner is #{@player1.name}."
+        @player1
       else
-        return "Winner is #{@player2.name}."
+        @player2
       end
     elsif @type == :war
       card1 = @player1.deck.cards[2]
       card2 = @player2.deck.cards[2] 
       if card1.rank > card2.rank
-        return "Winner is #{@player1.name}."
+        @player1
       else
-        return "Winner is #{@player2.name}."
+        @player2
       end
     else
       return "No Winner"
@@ -57,8 +57,9 @@ class Turn
   end
 
   def award_spoils(winner)
-    winner.deck.cards.concat(@spoils_of_war) if winner != "No Winner"
-
-    @spoils_of_war.clear
+    if winner
+      winner.deck.cards.concat(@spoils_of_war) 
+      @spoils_of_war.clear
+    end
   end
 end
