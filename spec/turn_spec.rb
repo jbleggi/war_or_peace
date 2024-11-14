@@ -38,8 +38,6 @@ RSpec.describe do
 
       expect(@turn.spoils_of_war).to eq([])
     end
-
-
   end
 
   describe 'behaviors' do
