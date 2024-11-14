@@ -1,7 +1,9 @@
+require './spec_helper.rb'
+
 class Deck
   attr_reader :cards
 
-  def initialize(cards)
+  def initialize(cards =[])
     @cards = cards
   end
 
@@ -31,5 +33,13 @@ class Deck
 
   def remove_card
     @cards.shift
+  end
+
+  def shuffle
+    @cards.shuffle!
+  end
+
+  def empty?
+    @cards.empty?
   end
 end

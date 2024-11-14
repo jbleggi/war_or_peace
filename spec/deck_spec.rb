@@ -1,6 +1,4 @@
-require './lib/deck'
-require './lib/card'
-require 'rspec'
+require './spec_helper.rb'
 
 RSpec.describe do
   before(:all) do

@@ -1,5 +1,4 @@
-require 'rspec'
-require './lib/card'
+require './spec_helper.rb'
 
 RSpec.describe Card do
   it "exists" do

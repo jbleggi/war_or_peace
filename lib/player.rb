@@ -1,3 +1,5 @@
+require './spec_helper.rb'
+
 class Player
   attr_reader :name, :deck
   
@@ -8,6 +10,6 @@ class Player
   end
 
   def has_lost?
-    @deck.cards.empty?
+    @deck.empty?
   end
 end

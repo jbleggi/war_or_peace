@@ -1,10 +1,7 @@
-require './lib/card'
-require './lib/deck'
-require './lib/player'
-require './lib/turn'
+require './spec_helper.rb'
 
 #####Create 52 Cards (A standard deck)#####
-suits = [:heart, :diamond, :club, :spade]
+suits = [:hearts, :diamonds, :clubs, :spades]
 values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
@@ -19,8 +16,9 @@ end
 
 #####Put those card into two Decks (some randomness would be nice here!)#####
 @full_deck.shuffle!
-@deck1 = @full_deck[0..25]
-@deck2 = @full_deck[26..-1]
+
+@deck1 = Deck.new(@full_deck[0..25])
+@deck2 = Deck.new(@full_deck[26..-1])
 
 #######GAME BEGINS###########
 puts "Welcome to War! (or Peace) This game will be played with 52 cards."
@@ -42,13 +40,10 @@ while true
 
     if input.upcase == 'GO'
         puts "------------------------------------------------------------------"
-        start
+        @turn = Turn.new(@player1, @player2)
+        @turn.start
         break
     else
         puts "Type 'GO' to start the game!"
     end
-end
-
-def start
-  
 end

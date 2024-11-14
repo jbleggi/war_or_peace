@@ -1,3 +1,5 @@
+require './spec_helper.rb'
+
 class Card
     attr_reader :value, :suit, :rank
 

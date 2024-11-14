@@ -1,7 +1,4 @@
-require './lib/card'
-require './lib/deck'
-require './lib/player'
-require 'rspec'
+require './spec_helper.rb'
 
 RSpec.describe do
   before(:all) do
