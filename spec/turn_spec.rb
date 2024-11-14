@@ -47,14 +47,12 @@ RSpec.describe do
 
     it 'can create an array of cards based on turn result' do
       @turn.pile_cards
-      expect(@turn.spoils_of_war).to eq([@card1, @card3])
+      expect(@turn.spoils_of_war).to eq(@card1, @card3)
     end
 
     it 'can add spoils_of_war to winner deck' do
       @turn.pile_cards
-
-      winner = @turn.winner
-      @turn.award_spoils(winner)
+      @turn.award_spoils
 
       expect(@turn.winner.deck.cards.count).to eq 6
     end

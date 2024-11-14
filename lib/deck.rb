@@ -8,6 +8,8 @@ class Deck
   end
 
   def add_card(card)
+    # new_card = [card]
+    # @cards = @cards + new_card
     @cards << card
   end
 

@@ -7,7 +7,7 @@ class Turn
     @player1 = player1
     @player2 = player2
     @spoils_of_war = []
-    @winner = winner 
+    @winner = winner
   end
 
   def type    
@@ -22,61 +22,59 @@ class Turn
 
   def winner
     if @type == :basic
-      @player1 if @player1.deck.rank_of_card_at(0) > @player2.deck.rank_of_card_at(0) else @player2
+      if @player1.deck.rank_of_card_at(0) > @player2.deck.rank_of_card_at(0)
+        @winner = @player1
+        puts "#{@player1.name} won 2 cards"
+        # puts "#{@player1.name} wins this turn."
+      elsif @player1.deck.rank_of_card_at(0) < @player2.deck.rank_of_card_at(0)
+        @winner = @player2
+        puts "#{@player2.name} won 2 cards"
+        # puts "#{@player2.name} wins this turn."
+      end
     end
 
     if @type == :war
-      @player1 if @player1.deck.rank_of_card_at(2) > @player2.deck.rank_of_card_at(2) else @player2
+      if @player1.deck.rank_of_card_at(2) > @player2.deck.rank_of_card_at(2)
+        @winner = @player1
+        puts "WAR - #{@player1.name} won 6 cards"
+        # puts "#{@player1.name} wins this turn."
+      else @player1.deck.rank_of_card_at(2) < @player2.deck.rank_of_card_at(2)
+        @winner = @player2
+        puts "WAR - #{@player2.name} won 6 cards"
+        # puts "#{@player2.name} wins this turn."
+      end
     end
 
     if @type == :mutually_assured_destruction
-      @winner = nil
       puts "No Winner"
+      puts "*mutually assured destruction* 6 cards removed from play"
     end
 
-    @winner
   end
-########################
-  # def winner
-  #   if @type == :basic
-  #     if  @player1.deck.rank_of_card_at(0) > @player2.deck.rank_of_card_at(0)
-  #       @winner = @player1
-  #     else
-  #       @winner = @player2
-  #     end
-  #   elsif @type == :war
-  #     if @player1.deck.rank_of_card_at(2) > @player2.deck.rank_of_card_at(2)
-  #       @winner = @player1
-  #     else
-  #       @winner = @player2
-  #     end
-  #   else
-  #     "No Winner"
-  #   end
-  #   @winner
-  # end
 #######################
   def pile_cards
     if @type == :basic
-      @spoils_of_war << @player1.deck.cards.shift
-      @spoils_of_war << @player2.deck.cards.shift
+      @spoils_of_war << [@player1.deck.cards.shift]
+      @spoils_of_war << [@player2.deck.cards.shift]
     elsif @type == :war
       3.times do
-        @spoils_of_war << @player1.deck.cards.shift
-        @spoils_of_war << @player2.deck.cards.shift
+        @spoils_of_war << [@player1.deck.cards.shift]
+        @spoils_of_war << [@player2.deck.cards.shift]
       end 
     else
       3.times do
-        @player1.deck.cards.shift
-        @player2.deck.cards.shift
+        [@player1.deck.cards.shift]
+        [@player2.deck.cards.shift]
       end
     end
+    # puts @spoils_of_war.inspect
   end
 
   def award_spoils
-    @winner.deck.add_card(@spoils_of_war)
-
-    @spoils_of_war.clear
+    if @winner != nil
+      @winner.deck.cards.concat(@spoils_of_war)
+      @spoils_of_war.clear
+    end
   end
 
  ##############GAME PLAY##############
@@ -95,41 +93,16 @@ class Turn
       # Start a new turn
       turn_count += 1
       turn = Turn.new(@player1, @player2)
-
       #debug statement
-      puts "Turn #{turn_count}: #{@player1.name} has the #{@player1.deck.cards[0].value} of #{@player1.deck.cards[0].suit} || #{@player2.name} has the #{@player2.deck.cards[0].value} of #{@player2.deck.cards[0].suit}"
-  
+      puts "Player 1 has #{@player1.deck.cards.count} cards. Player 2 has #{@player2.deck.cards.count} cards."
+      #debug statement
+      puts "Turn #{turn_count}: #{@player1.name} has the #{@player1.deck.cards[0].value} of #{@player1.deck.cards[0].suit}. || #{@player2.name} has the #{@player2.deck.cards[0].value} of #{@player2.deck.cards[0].suit}."
       turn.type  
       #debug statement
       puts "Turn type: #{turn.type.upcase}"
-
       turn.pile_cards
-      #debug statement
-      puts "Player 1 has #{@player1.deck.cards.count} cards. Player 2 has #{@player2.deck.cards.count} cards."
-      
-      ##########################PROBLEMS START HERE#######################
-      #      require 'pry'; binding.pry
-
       turn.winner
-      #debug statement
-      puts "#{@winner.name} wins this turn."
-
       turn.award_spoils
-      #debug statement
-      puts "Player 1 has #{@player1.deck.cards.count} cards. Player 2 has #{@player2.deck.cards.count} cards."
-            
-      # Print the result of this turn based on the type of the turn
-      if turn.type == :mutually_assured_destruction
-        puts "Turn #{turn_count}: *mutually assured destruction* 6 cards removed from play"
-      elsif turn.type == :war
-        puts "Turn #{turn_count}: WAR - #{@winner.name} won 6 cards"
-      elsif turn.type == :basic
-        puts "Turn #{turn_count}: #{@winner.name} won 2 cards"
-      end
-  
-      # Debugging: Check the number of cards remaining after the turn
-      puts "#{@player1.name} has #{@player1.deck.cards.count} cards remaining."
-      puts "#{@player2.name} has #{@player2.deck.cards.count} cards remaining."
       puts "-----------------------------------"
     end
   
