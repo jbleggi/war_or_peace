@@ -22,23 +22,40 @@ class Turn
 
   def winner
     if @type == :basic
-      if  @player1.deck.rank_of_card_at(0) > @player2.deck.rank_of_card_at(0)
-        @winner = @player1
-      else
-        @winner = @player2
-      end
-    elsif @type == :war
-      if @player1.deck.rank_of_card_at(2) > @player2.deck.rank_of_card_at(2)
-        @winner = @player1
-      else
-        @winner = @player2
-      end
-    else
-      @winner = nil
-      return "No Winner"
+      @player1 if @player1.deck.rank_of_card_at(0) > @player2.deck.rank_of_card_at(0) else @player2
     end
-  end
 
+    if @type == :war
+      @player1 if @player1.deck.rank_of_card_at(2) > @player2.deck.rank_of_card_at(2) else @player2
+    end
+
+    if @type == :mutually_assured_destruction
+      @winner = nil
+      puts "No Winner"
+    end
+
+    @winner
+  end
+########################
+  # def winner
+  #   if @type == :basic
+  #     if  @player1.deck.rank_of_card_at(0) > @player2.deck.rank_of_card_at(0)
+  #       @winner = @player1
+  #     else
+  #       @winner = @player2
+  #     end
+  #   elsif @type == :war
+  #     if @player1.deck.rank_of_card_at(2) > @player2.deck.rank_of_card_at(2)
+  #       @winner = @player1
+  #     else
+  #       @winner = @player2
+  #     end
+  #   else
+  #     "No Winner"
+  #   end
+  #   @winner
+  # end
+#######################
   def pile_cards
     if @type == :basic
       @spoils_of_war << @player1.deck.cards.shift
@@ -67,7 +84,6 @@ class Turn
     turn_count = 0
   
     while turn_count < 1_000_000
-      # Check if either player has lost the game
       if @player1.has_lost?
         puts "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
         return
@@ -80,24 +96,28 @@ class Turn
       turn_count += 1
       turn = Turn.new(@player1, @player2)
 
-      # Debugging: Show the turn number and the state of the players' top cards
+      #debug statement
       puts "Turn #{turn_count}: #{@player1.name} has the #{@player1.deck.cards[0].value} of #{@player1.deck.cards[0].suit} || #{@player2.name} has the #{@player2.deck.cards[0].value} of #{@player2.deck.cards[0].suit}"
   
-      turn.type  # Determine the type of the turn
-      puts "Turn type: #{turn.type.upcase}"  # Debugging output to check turn type
+      turn.type  
+      #debug statement
+      puts "Turn type: #{turn.type.upcase}"
+
       turn.pile_cards
+      #debug statement
+      puts "Player 1 has #{@player1.deck.cards.count} cards. Player 2 has #{@player2.deck.cards.count} cards."
+      
       ##########################PROBLEMS START HERE#######################
       #      require 'pry'; binding.pry
-      turn.winner
 
-      if @winner.is_a?(Player)
-        puts "#{@winner.name} wins this turn."
-      else
-        puts "No winner this turn."
-      end
-      
+      turn.winner
+      #debug statement
+      puts "#{@winner.name} wins this turn."
+
       turn.award_spoils
-  
+      #debug statement
+      puts "Player 1 has #{@player1.deck.cards.count} cards. Player 2 has #{@player2.deck.cards.count} cards."
+            
       # Print the result of this turn based on the type of the turn
       if turn.type == :mutually_assured_destruction
         puts "Turn #{turn_count}: *mutually assured destruction* 6 cards removed from play"
